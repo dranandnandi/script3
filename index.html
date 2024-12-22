@@ -25,6 +25,35 @@
         .star.selected {
             color: gold;
         }
+        .feedback-section {
+            display: none;
+            margin-top: 20px;
+        }
+        textarea {
+            width: 80%;
+            height: 100px;
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1rem;
+        }
+        button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .thank-you {
+            color: green;
+            font-weight: bold;
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -39,31 +68,62 @@
     </div>
     <p id="message"></p>
 
+    <div class="feedback-section" id="feedback-section">
+        <h3>We Value Your Feedback</h3>
+        <textarea id="review-text" placeholder="Write your feedback here..."></textarea><br>
+        <button id="submit-button">OK</button>
+    </div>
+
+    <p id="thank-you-message" class="thank-you"></p>
+
     <script>
         const stars = document.querySelectorAll('.star');
         const message = document.getElementById('message');
+        const feedbackSection = document.getElementById('feedback-section');
+        const reviewText = document.getElementById('review-text');
+        const submitButton = document.getElementById('submit-button');
+        const thankYouMessage = document.getElementById('thank-you-message');
         const gmbReviewLink = "https://g.page/r/CYGqjlqCy8ZIEBM/review"; // Replace with your actual GMB review link
+        let selectedRating = 0;
 
+        // Handle star rating selection
         stars.forEach(star => {
             star.addEventListener('click', () => {
-                const rating = parseInt(star.getAttribute('data-value'));
+                selectedRating = parseInt(star.getAttribute('data-value'));
 
                 // Highlight selected stars
                 stars.forEach(s => s.classList.remove('selected'));
-                for (let i = 0; i < rating; i++) {
+                for (let i = 0; i < selectedRating; i++) {
                     stars[i].classList.add('selected');
                 }
 
-                if (rating >= 4) {
-                    message.textContent = "Thank you for your feedback! Redirecting you to our Google Review page...";
-                    setTimeout(() => {
-                        window.location.href = gmbReviewLink; // Redirect to GMB page for 4 or 5 stars
-                    }, 1000);
+                // Show feedback section
+                feedbackSection.style.display = 'block';
+
+                // Update message
+                if (selectedRating >= 4) {
+                    message.textContent = "Thank you for your positive rating! We'd love to hear more.";
                 } else {
-                    message.textContent = "We’re sorry to hear that! Please let us know how we can improve.";
+                    message.textContent = "We're sorry to hear that! Please let us know how we can improve.";
                 }
             });
+        });
+
+        // Handle "OK" button click
+        submitButton.addEventListener('click', () => {
+            const feedback = reviewText.value.trim();
+
+            if (selectedRating >= 4) {
+                // Redirect to GMB review page for 4 or 5 stars
+                window.location.href = gmbReviewLink;
+            } else {
+                // Stay on the page and acknowledge feedback
+                thankYouMessage.textContent = "Thank you for your feedback! We’ll work to improve.";
+                feedbackSection.style.display = 'none';
+                reviewText.value = ''; // Clear feedback box
+            }
         });
     </script>
 </body>
 </html>
+
