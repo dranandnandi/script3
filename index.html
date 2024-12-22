@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Us</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        .rating {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .star {
+            font-size: 2rem;
+            cursor: pointer;
+            color: gray;
+        }
+        .star:hover,
+        .star.selected {
+            color: gold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Rate Our Service</h1>
+    <p>Please rate your experience with us!</p>
+    <div class="rating" id="rating">
+        <span class="star" data-value="1">★</span>
+        <span class="star" data-value="2">★</span>
+        <span class="star" data-value="3">★</span>
+        <span class="star" data-value="4">★</span>
+        <span class="star" data-value="5">★</span>
+    </div>
+    <p id="message"></p>
+
+    <script>
+        const stars = document.querySelectorAll('.star');
+        const message = document.getElementById('message');
+        const gmbReviewLink = "https://g.page/r/CYGqjlqCy8ZIEBM/review"; // Replace with your actual GMB review link
+
+        stars.forEach(star => {
+            star.addEventListener('click', () => {
+                const rating = parseInt(star.getAttribute('data-value'));
+
+                // Highlight selected stars
+                stars.forEach(s => s.classList.remove('selected'));
+                for (let i = 0; i < rating; i++) {
+                    stars[i].classList.add('selected');
+                }
+
+                if (rating >= 4) {
+                    message.textContent = "Thank you for your feedback! Redirecting you to our Google Review page...";
+                    setTimeout(() => {
+                        window.location.href = gmbReviewLink; // Redirect to GMB page for 4 or 5 stars
+                    }, 1000);
+                } else {
+                    message.textContent = "We’re sorry to hear that! Please let us know how we can improve.";
+                }
+            });
+        });
+    </script>
+</body>
+</html>
