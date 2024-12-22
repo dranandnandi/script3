@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rate Us</title>
+    <title>Elite Diagnosis - Rate Us</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 20px;
+        }
+        h1 {
+            color: #202124;
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        .google-logo {
+            width: 120px;
+            margin-bottom: 20px;
         }
         .rating {
             display: flex;
@@ -59,7 +68,8 @@
     </style>
 </head>
 <body>
-    <h1>Rate Our Service</h1>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Logo" class="google-logo">
+    <h1>Elite Diagnosis</h1>
     <p>Please rate your experience with us!</p>
     <div class="rating" id="rating">
         <span class="star" data-value="1">★</span>
@@ -100,13 +110,13 @@
                     stars[i].classList.add('selected');
                 }
 
-                // Show feedback section
-                feedbackSection.style.display = 'block';
-
-                // Update message
+                // Update behavior based on the rating
                 if (selectedRating >= 4) {
-                    message.textContent = "Thank you for your positive rating! We'd love to hear more.";
+                    // Redirect to Google review page for 4 or 5 stars
+                    window.location.href = gmbReviewLink;
                 } else {
+                    // Show feedback section for 3 or fewer stars
+                    feedbackSection.style.display = 'block';
                     message.textContent = "We're sorry to hear that! Please let us know how we can improve.";
                 }
             });
@@ -116,18 +126,15 @@
         submitButton.addEventListener('click', () => {
             const feedback = reviewText.value.trim();
 
-            if (selectedRating >= 4) {
-                // Redirect to GMB review page for 4 or 5 stars
-                window.location.href = gmbReviewLink;
-            } else {
-                // Stay on the page and acknowledge feedback
+            if (feedback) {
                 thankYouMessage.textContent = "Thank you for your feedback! We’ll work to improve.";
                 feedbackSection.style.display = 'none';
                 reviewText.value = ''; // Clear feedback box
+            } else {
+                alert("Please provide feedback before submitting.");
             }
         });
     </script>
 </body>
 </html>
-
 
