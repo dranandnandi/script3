@@ -1,140 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Elite Diagnosis - Rate Us</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 20px;
-        }
-        h1 {
-            color: #202124;
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-        }
-        .google-logo {
-            width: 120px;
-            margin-bottom: 20px;
-        }
-        .rating {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .star {
-            font-size: 2rem;
-            cursor: pointer;
-            color: gray;
-        }
-        .star:hover,
-        .star.selected {
-            color: gold;
-        }
-        .feedback-section {
-            display: none;
-            margin-top: 20px;
-        }
-        textarea {
-            width: 80%;
-            height: 100px;
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 1rem;
-            cursor: pointer;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .thank-you {
-            color: green;
-            font-weight: bold;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Elite Diagnosis - Rate Us and Chatbot</title>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      padding: 20px;
+      text-align: center;
+      line-height: 1.6;
+    }
+    /* Rating Section Styles */
+    .rating-section {
+      margin-bottom: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      display: inline-block;
+      width: 90%;
+      max-width: 600px;
+    }
+    .rating-section h1 {
+      color: #202124;
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+    }
+    .rating-section p {
+      color: #4a5568;
+      margin-bottom: 15px;
+    }
+    .google-logo {
+      width: 120px;
+      margin-bottom: 20px;
+    }
+    .rating {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .star {
+      font-size: 2rem;
+      cursor: pointer;
+      color: gray;
+    }
+    .star:hover,
+    .star.selected {
+      color: gold;
+    }
+    .feedback-section {
+      display: none;
+      margin-top: 20px;
+    }
+    textarea {
+      width: 80%;
+      height: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .thank-you {
+      color: green;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+    /* Chatbot Container Styles */
+    .chatbot-container {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-top: 30px;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .chatbot-container .content h1 {
+      color: #2d3748;
+      margin-bottom: 20px;
+      font-size: 2.5rem;
+    }
+    .chatbot-container .content p {
+      color: #4a5568;
+      margin-bottom: 15px;
+    }
+    .chatbot-iframe {
+      width: 100%;
+      height: 600px;
+      border: none;
+      border-radius: 8px;
+      background: #1a1a1a;
+    }
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .chatbot-iframe {
+        height: 500px;
+      }
+    }
+    @media (max-width: 480px) {
+      .chatbot-iframe {
+        height: 400px;
+      }
+    }
+  </style>
 </head>
 <body>
+  <!-- Rating Section -->
+  <div class="rating-section">
     <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" alt="Google Logo" class="google-logo">
     <h1>Elite Diagnosis</h1>
     <p>Please rate your experience with us!</p>
     <div class="rating" id="rating">
-        <span class="star" data-value="1">★</span>
-        <span class="star" data-value="2">★</span>
-        <span class="star" data-value="3">★</span>
-        <span class="star" data-value="4">★</span>
-        <span class="star" data-value="5">★</span>
+      <span class="star" data-value="1">★</span>
+      <span class="star" data-value="2">★</span>
+      <span class="star" data-value="3">★</span>
+      <span class="star" data-value="4">★</span>
+      <span class="star" data-value="5">★</span>
     </div>
     <p id="message"></p>
-
     <!-- Feedback Section -->
     <div class="feedback-section" id="feedback-section">
-        <h3>We Value Your Feedback</h3>
-        <textarea id="review-text" placeholder="Write your feedback here..."></textarea><br>
-        <button id="submit-button">OK</button>
+      <h3>We Value Your Feedback</h3>
+      <textarea id="review-text" placeholder="Write your feedback here..."></textarea><br>
+      <button id="submit-button">OK</button>
     </div>
-
     <p id="thank-you-message" class="thank-you"></p>
+  </div>
 
-    <script>
-        const stars = document.querySelectorAll('.star');
-        const message = document.getElementById('message');
-        const feedbackSection = document.getElementById('feedback-section');
-        const reviewText = document.getElementById('review-text');
-        const submitButton = document.getElementById('submit-button');
-        const thankYouMessage = document.getElementById('thank-you-message');
-        const gmbReviewLink = "https://g.page/r/CYGqjlqCy8ZIEBM/review"; // Replace with your actual GMB review link
-        let selectedRating = 0;
+  <!-- Chatbot Section -->
+  <div class="chatbot-container">
+    <div class="content">
+      <h1>Welcome to Our Chatbot</h1>
+      <p>Interact with our AI-powered assistant for inquiries and support. Please use the chat window below.</p>
+    </div>
+    <iframe 
+      src="https://soft-vacherin-a364d3.netlify.app/"
+      class="chatbot-iframe"
+      title="Chatbot Interface"
+      allow="microphone"
+      loading="lazy">
+    </iframe>
+  </div>
 
-        // Handle star rating selection
-        stars.forEach(star => {
-            star.addEventListener('click', () => {
-                selectedRating = parseInt(star.getAttribute('data-value'));
+  <script>
+    // Rating system script
+    const stars = document.querySelectorAll('.star');
+    const message = document.getElementById('message');
+    const feedbackSection = document.getElementById('feedback-section');
+    const reviewText = document.getElementById('review-text');
+    const submitButton = document.getElementById('submit-button');
+    const thankYouMessage = document.getElementById('thank-you-message');
+    const gmbReviewLink = "https://g.page/r/CYGqjlqCy8ZIEBM/review"; // Replace with your actual GMB review link
+    let selectedRating = 0;
 
-                // Highlight selected stars
-                stars.forEach(s => s.classList.remove('selected'));
-                for (let i = 0; i < selectedRating; i++) {
-                    stars[i].classList.add('selected');
-                }
+    stars.forEach(star => {
+      star.addEventListener('click', () => {
+        selectedRating = parseInt(star.getAttribute('data-value'));
+        // Highlight selected stars
+        stars.forEach(s => s.classList.remove('selected'));
+        for (let i = 0; i < selectedRating; i++) {
+          stars[i].classList.add('selected');
+        }
+        // Update behavior based on the rating
+        if (selectedRating >= 4) {
+          // Redirect to Google review page for 4 or 5 stars
+          window.location.href = gmbReviewLink;
+        } else {
+          // Show feedback section for 3 or fewer stars
+          feedbackSection.style.display = 'block';
+          message.textContent = "We're sorry to hear that! Please let us know how we can improve.";
+        }
+      });
+    });
 
-                // Update behavior based on the rating
-                if (selectedRating >= 4) {
-                    // Redirect to Google review page for 4 or 5 stars
-                    window.location.href = gmbReviewLink;
-                } else {
-                    // Show feedback section for 3 or fewer stars
-                    feedbackSection.style.display = 'block';
-                    message.textContent = "We're sorry to hear that! Please let us know how we can improve.";
-                }
-            });
-        });
-
-        // Handle "OK" button click
-        submitButton.addEventListener('click', () => {
-            const feedback = reviewText.value.trim();
-
-            if (feedback) {
-                thankYouMessage.textContent = "Thank you for your feedback! We’ll work to improve.";
-                feedbackSection.style.display = 'none';
-                reviewText.value = ''; // Clear feedback box
-            } else {
-                alert("Please provide feedback before submitting.");
-            }
-        });
-    </script>
+    submitButton.addEventListener('click', () => {
+      const feedback = reviewText.value.trim();
+      if (feedback) {
+        thankYouMessage.textContent = "Thank you for your feedback! We’ll work to improve.";
+        feedbackSection.style.display = 'none';
+        reviewText.value = '';
+      } else {
+        alert("Please provide feedback before submitting.");
+      }
+    });
+  </script>
 </body>
 </html>
-
